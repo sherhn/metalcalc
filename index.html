@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── Primary SEO ── -->
+  <title>Расчёт устойчивости стержней – СП 16.13330.2017</title>
+  <meta name="description"
+        content="Онлайн-калькулятор устойчивости центрально-сжатых стальных стержней по СП 16.13330.2017. Коэффициент φ, условная гибкость λ̄, проверка N/(φ·A·Ry·γc) ≤ 1.">
+  <meta name="keywords"
+        content="расчёт устойчивости, стальные конструкции, СП 16.13330.2017, центрально-сжатый стержень, коэффициент phi, гибкость, онлайн калькулятор">
+  <meta name="author" content="sherhn">
+  <meta name="robots" content="index, follow">
+
+  <!-- ── Favicons ── -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Crect x='5.7' y='6.9' width='20.6' height='3.4' rx='1.1' fill='white'/%3E%3Crect x='5.7' y='21.7' width='20.6' height='3.4' rx='1.1' fill='white'/%3E%3Crect x='13.7' y='10.3' width='4.6' height='11.4' rx='1.1' fill='white'/%3E%3C/svg%3E">
+
+  <!-- ── Fonts ── -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #f5f5f3;
+      --white:     #ffffff;
+      --border:    #e0ddd8;
+      --border2:   #c8c5bf;
+      --text:      #1a1a18;
+      --muted:     #7a7872;
+      --accent:    #2563eb;
+      --success:   #16a34a;
+      --success-bg:#f0fdf4;
+      --danger:    #dc2626;
+      --danger-bg: #fef2f2;
+      --sans:      'IBM Plex Sans', system-ui, sans-serif;
+      --mono:      'IBM Plex Mono', monospace;
+      --r:         8px;
+      --r-lg:      12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 24px; display: flex; align-items: center;
+      height: 52px; gap: 12px; position: sticky; top: 0; z-index: 50;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--text);
+      font-weight: 600; font-size: .92rem; letter-spacing: -.01em; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 28px; height: 28px; flex-shrink: 0;
+    }
+    .logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+    .logo-wordmark span:first-child { font-size: .88rem; font-weight: 600; color: var(--text); }
+    .logo-wordmark span:last-child  { font-size: .62rem; color: var(--muted); font-weight: 400; letter-spacing: .02em; }
+    .nav-spacer { flex: 1; }
+
+    /* Language switcher */
+    .lang-sw { display: flex; gap: 2px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px; }
+    .lang-btn {
+      border: none; background: none; cursor: pointer;
+      font-family: var(--sans); font-size: .73rem; font-weight: 500;
+      padding: 3px 8px; border-radius: 4px; color: var(--muted);
+      transition: background .12s, color .12s;
+    }
+    .lang-btn.active { background: var(--white); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+    .lang-btn:hover:not(.active) { color: var(--text); }
+
+    /* ── Ad ── */
+    .ad-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); flex-shrink: 0; }
+    .ad-zone {
+      background: var(--bg); border: 1px dashed var(--border2); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 11px;
+    }
+    .ad-zone.sidebar-tall { width: 100%; height: 200px; }
+    .ad-zone.sidebar-rect { width: 100%; height: 600px; }
+    .footer-ad {
+      background: var(--white); border-top: 1px solid var(--border);
+      padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .ad-zone.footer-zone { width: min(970px, 100%); height: 90px; }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 1060px; margin: 0 auto;
+      padding: 28px 16px 60px;
+      display: grid; grid-template-columns: minmax(0,1fr) 300px;
+      gap: 20px; align-items: start;
+    }
+    @media (max-width: 860px) { .page { grid-template-columns: 1fr; } }
+
+    /* ── Card ── */
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; }
+
+    /* ── Header ── */
+    .hdr { margin-bottom: 24px; }
+    .hdr-ref { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 5px; }
+    .hdr h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+    .formula-bar {
+      font-family: var(--mono); font-size: .78rem; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 8px 13px;
+    }
+
+    /* ── Field ── */
+    .field { margin-bottom: 18px; }
+    .fl { font-size: .72rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+
+    /* ── Section cards (SVG, no images) ── */
+    .sec-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .sec-card {
+      border: 1px solid var(--border); border-radius: var(--r);
+      overflow: hidden; cursor: pointer; position: relative;
+      transition: border-color .15s; background: #F9FAFB;
+    }
+    .sec-card:hover { border-color: var(--border2); }
+    .sec-card.active { border-color: var(--accent); outline: 1px solid var(--accent); }
+    .sec-img { display: block; width: 100%; height: 76px; object-fit: contain; }
+    .sec-tag {
+      position: absolute; bottom: 5px; right: 5px;
+      font-family: var(--mono); font-size: .62rem; font-weight: 500;
+      background: rgba(255,255,255,.92); border: 1px solid var(--border);
+      color: var(--text); padding: 1px 6px; border-radius: 4px;
+    }
+    .sec-card.active .sec-tag { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ── Input ── */
+    .inp {
+      width: 100%; background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r); color: var(--text); font-family: var(--sans);
+      font-size: .88rem; padding: 9px 12px; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      -moz-appearance: textfield;
+    }
+    .inp::-webkit-inner-spin-button, .inp::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .inp::placeholder { color: var(--border2); }
+    .inp:hover { border-color: var(--border2); }
+    .inp:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+    select.inp {
+      appearance: none; cursor: pointer; background-color: var(--white);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237a7872'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center; padding-right: 26px;
+    }
+    .hint { font-size: .7rem; color: var(--muted); margin-top: 4px; }
+    .r2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ru { display: grid; grid-template-columns: 1fr 108px; gap: 8px; }
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+    /* ── Live grid ── */
+    .live-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--r);
+      overflow: hidden; margin-bottom: 18px;
+    }
+    .lc { background: var(--bg); padding: 11px 13px; }
+    .lc-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 2px; }
+    .lc-val { font-family: var(--mono); font-size: .92rem; font-weight: 500; color: var(--text); }
+    .lc-val.ready { color: var(--accent); }
+
+    /* ── Button ── */
+    .btn {
+      width: 100%; padding: 11px; background: var(--accent); color: #fff;
+      font-family: var(--sans); font-weight: 500; font-size: .9rem;
+      border: none; border-radius: var(--r); cursor: pointer; transition: background .15s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn:active { background: #1e40af; }
+
+    /* ── Result ── */
+    #rc { margin-top: 18px; border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; display: none; }
+    #rc.show { display: block; animation: fu .22s ease; }
+    @keyframes fu { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    .rt { display: grid; grid-template-columns: 1fr 1fr; }
+    .rcell { padding: 16px 18px; background: var(--white); }
+    .rcell:first-child { border-right: 1px solid var(--border); }
+    .rcell-lbl { font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 5px; }
+    .rnum { font-family: var(--mono); font-size: 1.7rem; font-weight: 600; line-height: 1; }
+    .rnum.ok { color: var(--success); }
+    .rnum.fail { color: var(--danger); }
+    .rverd { font-size: .88rem; font-weight: 500; }
+    .rverd.ok { color: var(--success); }
+    .rverd.fail { color: var(--danger); }
+    .rbar { padding: 7px 18px; font-size: .75rem; border-top: 1px solid var(--border); }
+    .rbar.ok { background: var(--success-bg); color: var(--success); }
+    .rbar.fail { background: var(--danger-bg); color: var(--danger); }
+    .rform { padding: 13px 18px; border-top: 1px solid var(--border); background: var(--bg); }
+    .rform-lbl { font-size: .65rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 6px; }
+    .rform-txt { font-family: var(--mono); font-size: .78rem; color: var(--text); line-height: 1.8; }
+
+    /* ── Note ── */
+    .note {
+      margin-top: 16px; padding: 12px 14px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r); font-size: .73rem; color: var(--muted); line-height: 1.8;
+    }
+
+    /* ── Sidebar ── */
+    .sb { display: flex; flex-direction: column; gap: 14px; }
+    .sb-sticky { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 14px; }
+    .ad-block { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 12px; }
+    .ad-block .ad-label { display: block; margin-bottom: 7px; }
+    .ref-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px; }
+    .ref-title { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; color: var(--muted); margin-bottom: 10px; }
+    .ref-row { display: flex; gap: 10px; font-size: .78rem; padding: 6px 0; border-bottom: 1px solid var(--border); line-height: 1.4; }
+    .ref-row:last-child { border-bottom: none; }
+    .ref-type { font-family: var(--mono); font-weight: 500; color: var(--accent); min-width: 16px; }
+    .ref-desc { color: var(--muted); }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: #1a1a18; color: #fff; font-size: .82rem;
+      padding: 10px 18px; border-radius: var(--r);
+      z-index: 99; opacity: 0; pointer-events: none;
+      transition: transform .25s, opacity .25s;
+      max-width: 400px; text-align: center;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<nav class="navbar" aria-label="Main navigation">
+
+  <!-- Logo -->
+  <a href="/" class="logo" aria-label="МеталКальк – главная">
+    <svg class="logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="28" height="28" rx="6" fill="#2563eb"/>
+      <!-- I-beam cross-section icon -->
+      <rect x="5" y="6"  width="18" height="3" rx="1" fill="white"/>
+      <rect x="5" y="19" width="18" height="3" rx="1" fill="white"/>
+      <rect x="12" y="9" width="4"  height="10" rx="1" fill="white"/>
+    </svg>
+    <div class="logo-wordmark">
+      <span>МеталКальк</span>
+      <span data-i18n="logo-sub">Стальные конструкции</span>
+    </div>
+  </a>
+
+  <div class="nav-spacer"></div>
+
+  <!-- Language switcher -->
+  <div class="lang-sw" role="group" aria-label="Язык / Language">
+    <button class="lang-btn active" data-lang="ru">RU</button>
+    <button class="lang-btn"        data-lang="en">EN</button>
+    <button class="lang-btn"        data-lang="de">DE</button>
+    <button class="lang-btn"        data-lang="fr">FR</button>
+    <button class="lang-btn"        data-lang="zh">中文</button>
+  </div>
+</nav>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main>
+<div class="page">
+
+  <!-- LEFT: calculator -->
+  <div>
+    <article class="card" aria-labelledby="calc-title">
+
+      <header class="hdr">
+        <p class="hdr-ref" data-i18n="hdr-ref">СП 16.13330.2017 – Стальные конструкции</p>
+        <h1 id="calc-title" data-i18n="hdr-h1">Расчёт устойчивости центрально-сжатых стержней</h1>
+        <div class="formula-bar" aria-label="Формула">N / (φ × A × R<sub>y</sub> × γ<sub>c</sub>) ≤ 1</div>
+      </header>
+
+      <!-- ① Section type -->
+      <div class="field">
+        <div class="fl" data-i18n="field-sec">① Тип сечения</div>
+        <div class="sec-cards" role="radiogroup" aria-label="Тип сечения">
+
+          <!-- Type A: closed / wide-flange -->
+          <div class="sec-card active" data-value="a" role="radio" aria-checked="true" tabindex="0" aria-label="Тип а">
+            <img src="images/a.png" alt="Тип сечения а – замкнутый профиль" class="sec-img">
+            <div class="sec-tag">а</div>
+          </div>
+
+          <!-- Type B: I-beam / channel -->
+          <div class="sec-card" data-value="b" role="radio" aria-checked="false" tabindex="0" aria-label="Тип b">
+            <img src="images/b.png" alt="Тип сечения b – двутавр" class="sec-img">
+            <div class="sec-tag">b</div>
+          </div>
+
+          <!-- Type C: angle / cross -->
+          <div class="sec-card" data-value="c" role="radio" aria-checked="false" tabindex="0" aria-label="Тип c">
+            <img src="images/c.png" alt="Тип сечения c – уголок / крест" class="sec-img">
+            <div class="sec-tag">c</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ② Lambda -->
+      <div class="field">
+        <label class="fl" for="lambdaInput" data-i18n="field-lambda">② Гибкость стержня λ</label>
+        <input id="lambdaInput" type="number" class="inp" step="1" min="10" max="120"
+               data-i18n-ph="ph-lambda">
+        <p class="hint" data-i18n="hint-lambda">Допустимый диапазон: 10 ≤ λ ≤ 120</p>
+      </div>
+
+      <!-- ③ Steel grade + thickness -->
+      <div class="field">
+        <div class="fl" data-i18n="field-steel">③ Марка стали и толщина проката</div>
+        <div class="r2">
+          <select id="steelGrade" class="inp" aria-label="Марка стали">
+            <option value="C235">C235</option>
+            <option value="C245">C245</option>
+            <option value="C255">C255</option>
+            <option value="C345">C345</option>
+            <option value="C345K">C345K</option>
+            <option value="C355">C355</option>
+            <option value="C355-1">C355-1 / C355-K</option>
+            <option value="C390">C390 / C390-1</option>
+            <option value="C440">C440</option>
+            <option value="C590">C590</option>
+            <option value="C690">C690</option>
+          </select>
+          <input id="thicknessInput" type="number" class="inp" step="0.1" min="0.1"
+                 data-i18n-ph="ph-thickness">
+        </div>
+      </div>
+
+      <!-- ④ γc -->
+      <div class="field">
+        <label class="fl" for="ycSelect" data-i18n="field-yc">④ Коэффициент условий работы γ<sub>c</sub></label>
+        <select id="ycSelect" class="inp">
+          <option value="1.05" data-i18n="yc-105">1,05 – одноэтажные здания с мостовыми кранами</option>
+          <option value="0.95" selected data-i18n="yc-095">0,95 – жилые, общественные, многоэтажные до 150 м</option>
+          <option value="0.90" data-i18n="yc-090">0,90 – двутавровые колонны зданий > 150 м</option>
+          <option value="0.87" data-i18n="yc-087">0,87 – коробчатые колонны зданий > 150 м</option>
+          <option value="1.00" data-i18n="yc-100">1,00 – прочие случаи</option>
+        </select>
+      </div>
+
+      <!-- ⑤ Area -->
+      <div class="field">
+        <label class="fl" for="areaInput" data-i18n="field-area">⑤ Площадь сечения A</label>
+        <div class="ru">
+          <input id="areaInput" type="number" class="inp" step="any" data-i18n-ph="ph-value">
+          <select id="areaUnit" class="inp" aria-label="Единица площади">
+            <option value="1">м²</option>
+            <option value="0.000001" selected>мм²</option>
+            <option value="0.0001">см²</option>
+          </select>
+        </div>
+        <p class="hint">1 мм² = 10⁻⁶ м² · 1 см² = 10⁻⁴ м²</p>
+      </div>
+
+      <!-- ⑥ Force -->
+      <div class="field">
+        <label class="fl" for="forceInput" data-i18n="field-force">⑥ Продольное усилие N</label>
+        <div class="ru">
+          <input id="forceInput" type="number" class="inp" step="any" data-i18n-ph="ph-value">
+          <select id="forceUnit" class="inp" aria-label="Единица силы">
+            <option value="1000" selected>кН</option>
+            <option value="1">Н</option>
+            <option value="1000000">МН</option>
+            <option value="101.9716">тс</option>
+          </select>
+        </div>
+        <p class="hint">1 кН = 10³ Н · 1 МН = 10⁶ Н · 1 тс ≈ 101.97 Н</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Live preview -->
+      <div class="live-grid" aria-live="polite" aria-label="Промежуточные результаты">
+        <div class="lc">
+          <div class="lc-label" data-i18n="live-phi">Коэффициент φ</div>
+          <div class="lc-val" id="phiValue">–</div>
+        </div>
+        <div class="lc">
+          <div class="lc-label">R<sub>y</sub>, МПа</div>
+          <div class="lc-val" id="ryValue">–</div>
+        </div>
+        <div class="lc">
+          <div class="lc-label">γ<sub>c</sub></div>
+          <div class="lc-val" id="ycValue">0.95</div>
+        </div>
+        <div class="lc">
+          <div class="lc-label" data-i18n="live-lmp">Условная гибкость λ̄</div>
+          <div class="lc-val" id="lmpValue">–</div>
+        </div>
+      </div>
+
+      <button class="btn" id="calculateBtn" data-i18n="btn-calc">Рассчитать</button>
+
+      <!-- Result block -->
+      <div id="rc" role="region" aria-label="Результат расчёта" aria-live="assertive">
+        <div class="rt">
+          <div class="rcell">
+            <div class="rcell-lbl">N / (φ · A · R<sub>y</sub> · γ<sub>c</sub>)</div>
+            <div class="rnum" id="resultValue">–</div>
+          </div>
+          <div class="rcell">
+            <div class="rcell-lbl" data-i18n="res-label">Результат</div>
+            <div class="rverd" id="statusText">–</div>
+          </div>
+        </div>
+        <div class="rbar" id="verdictBar"><span id="verdictLabel">–</span></div>
+        <div class="rform">
+          <div class="rform-lbl" data-i18n="res-sub">Подстановка значений</div>
+          <div class="rform-txt" id="formulaBlock">–</div>
+        </div>
+      </div>
+
+    </article>
+
+    <aside class="note" role="note">
+      <span data-i18n="note-cond">Условие устойчивости: расчётное значение ≤ 1</span><br>
+      R<sub>y</sub> <span data-i18n="note-ry">– из таблицы СП 16.13330.2017 по марке стали и толщине проката</span><br>
+      <span data-i18n="note-lmp">Условная гибкость: λ̄ = λ × √(R<sub>y</sub> / E), где E = 2.06 × 10⁵ МПа</span>
+    </aside>
+  </div>
+
+  <!-- RIGHT: sidebar -->
+  <aside class="sb" aria-label="Sidebar">
+    <div class="sb-sticky">
+      <div class="ad-block">
+        <span class="ad-label" data-i18n="ad-label">Реклама</span>
+        <div class="ad-zone sidebar-tall">300 × 200</div>
+      </div>
+
+      <div class="ref-card">
+        <div class="ref-title" data-i18n="ref-title">Типы сечений (φ)</div>
+        <div class="ref-row">
+          <span class="ref-type">а</span>
+          <span class="ref-desc" data-i18n="ref-a">Замкнутые профили, широкополочные двутавры</span>
+        </div>
+        <div class="ref-row">
+          <span class="ref-type">b</span>
+          <span class="ref-desc" data-i18n="ref-b">Двутавры, швеллеры, трубы</span>
+        </div>
+        <div class="ref-row">
+          <span class="ref-type">c</span>
+          <span class="ref-desc" data-i18n="ref-c">Составные сечения, уголки, крестовые</span>
+        </div>
+      </div>
+
+      <div class="ad-block">
+        <span class="ad-label" data-i18n="ad-label">Реклама</span>
+        <div class="ad-zone sidebar-rect">300 × 600</div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer-ad">
+  <span class="ad-label" data-i18n="ad-label">Реклама</span>
+  <div class="ad-zone footer-zone">970 × 90 – нижний баннер</div>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script type="module">
+import { getRy, calculateLmp, getPhi, calculateStability, formatNumber } from './scripts/calculator.js';
+import { STRINGS, t as translate } from './scripts/i18n.js';
+
+// ── i18n ──────────────────────────────────────────────────────────────────
+let lang = 'ru';
+
+function t(key) { return translate(lang, key); }
+
+function applyLang(newLang) {
+  lang = newLang;
+  document.documentElement.lang = lang;
+  document.title = t('page-title');
+
+  // Update meta description
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', t('meta-desc'));
+
+  // Text nodes via data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const val = t(key);
+    if (val) el.textContent = val;
+  });
+
+  // Placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    el.placeholder = t(key);
+  });
+
+  // γc select options
+  const ycSelect = document.getElementById('ycSelect');
+  ycSelect.querySelectorAll('option[data-i18n]').forEach(opt => {
+    opt.textContent = t(opt.dataset.i18n);
+  });
+
+  // Active lang button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Re-render result if visible
+  if (document.getElementById('rc').classList.contains('show')) {
+    calculate();
+  }
+}
+
+// Language button listeners
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+// ── Calculator logic ──────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const lambdaInput    = $('lambdaInput');
+const steelGrade     = $('steelGrade');
+const thicknessInput = $('thicknessInput');
+const ycSelect       = $('ycSelect');
+const areaInput      = $('areaInput');
+const areaUnit       = $('areaUnit');
+const forceInput     = $('forceInput');
+const forceUnit      = $('forceUnit');
+const toastEl        = $('toast');
+
+let selectedSection = 'a';
+let toastTimer = null;
+
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3500);
+}
+
+// Section card clicks / keyboard
+document.querySelectorAll('[data-value]').forEach(card => {
+  const activate = () => {
+    document.querySelectorAll('[data-value]').forEach(c => {
+      c.classList.remove('active');
+      c.setAttribute('aria-checked', 'false');
+    });
+    card.classList.add('active');
+    card.setAttribute('aria-checked', 'true');
+    selectedSection = card.dataset.value;
+    updateLive();
+  };
+  card.addEventListener('click', activate);
+  card.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); activate(); } });
+});
+
+function setLive(id, val, ready = false) {
+  const el = $(id);
+  el.textContent = val;
+  el.className = 'lc-val' + (ready ? ' ready' : '');
+}
+
+function updateLive() {
+  const grade     = steelGrade.value;
+  const thickness = parseFloat(thicknessInput.value);
+  const lambda    = parseFloat(lambdaInput.value);
+  $('ycValue').textContent = parseFloat(ycSelect.value).toFixed(2);
+  setLive('ryValue', '–'); setLive('lmpValue', '–'); setLive('phiValue', '–');
+  if (!isFinite(thickness) || thickness <= 0) return;
+  const ry = getRy(grade, thickness);
+  if (ry === null) { setLive('ryValue', t('out-of-range')); return; }
+  setLive('ryValue', ry + ' МПа', true);
+  if (!isFinite(lambda) || lambda < 10 || lambda > 120) return;
+  const lr = calculateLmp(lambda, ry);
+  if (!lr) return;
+  setLive('lmpValue', lr.lmp.toFixed(4), true);
+  const phi = getPhi(selectedSection, lr.lmp);
+  if (phi !== null) setLive('phiValue', phi.toFixed(3), true);
+}
+
+function calculate() {
+  const grade     = steelGrade.value;
+  const thickness = parseFloat(thicknessInput.value);
+  const lambda    = parseFloat(lambdaInput.value);
+  const yc        = parseFloat(ycSelect.value);
+  const areaSI    = parseFloat(areaInput.value)  * parseFloat(areaUnit.value);
+  const forceSI   = parseFloat(forceInput.value) * parseFloat(forceUnit.value);
+
+  const res = calculateStability(grade, thickness, lambda, yc, areaSI, forceSI, selectedSection);
+
+  // Ошибка возвращается как { error: 'i18n-key' }
+  if (res && res.error) { showToast(t(res.error)); return; }
+
+  const { phi, ry, ratio, isStable, force, area, denominator, yc: ycv } = res;
+  const c = isStable ? 'ok' : 'fail';
+
+  $('resultValue').textContent = ratio.toFixed(6);
+  $('resultValue').className   = 'rnum ' + c;
+  $('statusText').textContent  = t(isStable ? 'stable' : 'unstable');
+  $('statusText').className    = 'rverd ' + c;
+  $('verdictBar').className    = 'rbar ' + c;
+  $('verdictLabel').textContent = t(isStable ? 'verdict-ok' : 'verdict-fail')
+    .replace('{r}', ratio.toFixed(6));
+
+  $('formulaBlock').innerHTML =
+    `${formatNumber(force)} Н / ( ${phi.toFixed(3)} × ${formatNumber(area)} м² × ${ry}×10<sup>6</sup> Па × ${ycv} )<br>` +
+    `= ${formatNumber(force)} / ${formatNumber(denominator)} = <b>${ratio.toFixed(6)}</b>`;
+
+  const rc = $('rc');
+  rc.classList.add('show');
+  rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+steelGrade.addEventListener('change', updateLive);
+thicknessInput.addEventListener('input', updateLive);
+lambdaInput.addEventListener('input', updateLive);
+ycSelect.addEventListener('change', updateLive);
+$('calculateBtn').addEventListener('click', calculate);
+[areaInput, forceInput, thicknessInput, lambdaInput].forEach(el =>
+  el.addEventListener('keydown', e => e.key === 'Enter' && calculate())
+);
+
+// Init
+applyLang('ru');
+updateLive();
+</script>
+</body>
+</html>
