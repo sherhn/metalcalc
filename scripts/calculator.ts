@@ -205,7 +205,7 @@ export function computePhi(sectionType: SectionType, lambdaBar: number): number 
 
   if (lambdaBar <= baseMax) return interpolate(baseTable, lambdaBar);
 
-  // λ̄ выше максимума основной таблицы, но ≤ 10 — сшиваем с PHI_TABLE_HIGH
+  // λ̄ выше максимума основной таблицы, но ≤ 10 – сшиваем с PHI_TABLE_HIGH
   const highMin = PHI_TABLE_HIGH[0][0];
   if (lambdaBar < highMin) {
     // Линейная интерполяция между концом основной таблицы и началом PHI_HIGH

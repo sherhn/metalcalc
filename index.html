@@ -5,13 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- ── Primary SEO ── -->
-  <title>Расчёт устойчивости стержней – СП 16.13330.2017</title>
+  <title>Расчёт устойчивости центрально-сжатых стержней онлайн – СП 16.13330.2017 | МеталКальк</title>
   <meta name="description"
-        content="Онлайн-калькулятор устойчивости центрально-сжатых стальных стержней по СП 16.13330.2017. Коэффициент φ, условная гибкость λ̄, проверка N/(φ·A·Ry·γc) ≤ 1.">
+        content="Онлайн расчёт устойчивости центрально-сжатых стальных стержней по СП 16.13330.2017. Коэффициент продольного изгиба φ, условная гибкость λ̄, проверка N/(φ·A·Ry·γc) ≤ 1. Стали С235–С690, типы сечений a, b, c.">
   <meta name="keywords"
-        content="расчёт устойчивости, стальные конструкции, СП 16.13330.2017, центрально-сжатый стержень, коэффициент phi, гибкость, онлайн калькулятор">
+        content="расчёт устойчивости стержня онлайн, коэффициент продольного изгиба φ, СП 16.13330.2017, центрально-сжатый стержень, условная гибкость, стальные конструкции калькулятор, проверка устойчивости колонны">
   <meta name="author" content="sherhn">
   <meta name="robots" content="index, follow">
+
+  <!-- ── Schema.org ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "МеталКальк – Расчёт устойчивости центрально-сжатых стержней",
+    "description": "Онлайн-калькулятор проверки устойчивости центрально-сжатых стальных стержней по СП 16.13330.2017. Рассчитывает коэффициент продольного изгиба φ, условную гибкость λ̄ и проверяет условие N/(φ·A·Ry·γc) ≤ 1.",
+    "applicationCategory": "EngineeringApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["ru", "en", "de", "fr", "zh"],
+    "isAccessibleForFree": true,
+    "author": { "@type": "Person", "name": "sherhn" },
+    "keywords": "расчёт устойчивости, СП 16.13330.2017, коэффициент φ, центрально-сжатый стержень, стальные конструкции"
+  }
+  </script>
 
   <!-- ── Favicons ── -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Crect x='5.7' y='6.9' width='20.6' height='3.4' rx='1.1' fill='white'/%3E%3Crect x='5.7' y='21.7' width='20.6' height='3.4' rx='1.1' fill='white'/%3E%3Crect x='13.7' y='10.3' width='4.6' height='11.4' rx='1.1' fill='white'/%3E%3C/svg%3E">
@@ -101,6 +117,7 @@
     .hdr { margin-bottom: 24px; }
     .hdr-ref { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 5px; }
     .hdr h1 { font-size: 1.2rem; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+    .hdr-sub { font-size: .78rem; color: var(--muted); margin-bottom: 10px; }
     .formula-bar {
       font-family: var(--mono); font-size: .78rem; color: var(--muted);
       background: var(--bg); border: 1px solid var(--border);
@@ -223,6 +240,24 @@
       max-width: 400px; text-align: center;
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── SEO text block ── */
+    .seo-block {
+      margin-top: 20px;
+      padding: 20px 24px;
+      background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
+      color: var(--muted); font-size: .78rem; line-height: 1.75;
+    }
+    .seo-block h2 {
+      font-size: .92rem; font-weight: 600; color: var(--text);
+      margin-bottom: 8px; letter-spacing: -.01em;
+    }
+    .seo-block h3 {
+      font-size: .78rem; font-weight: 600; color: var(--text);
+      margin: 14px 0 4px;
+    }
+    .seo-block p { margin-bottom: 0; }
+    .seo-block strong { color: var(--text); }
   </style>
 </head>
 <body>
@@ -268,6 +303,7 @@
       <header class="hdr">
         <p class="hdr-ref" data-i18n="hdr-ref">СП 16.13330.2017 – Стальные конструкции</p>
         <h1 id="calc-title" data-i18n="hdr-h1">Расчёт устойчивости центрально-сжатых стержней</h1>
+        <p class="hdr-sub" data-i18n="hdr-sub">Проверка по СП 16.13330.2017 – онлайн</p>
         <div class="formula-bar" aria-label="Формула">N / (φ × A × R<sub>y</sub> × γ<sub>c</sub>) ≤ 1</div>
       </header>
 
@@ -362,10 +398,10 @@
             <option value="1000" selected>кН</option>
             <option value="1">Н</option>
             <option value="1000000">МН</option>
-            <option value="101.9716">тс</option>
+            <option value="9806.65">тс</option>
           </select>
         </div>
-        <p class="hint">1 кН = 10³ Н · 1 МН = 10⁶ Н · 1 тс ≈ 101.97 Н</p>
+        <p class="hint">1 кН = 10³ Н · 1 МН = 10⁶ Н · 1 тс ≈ 9806.65 Н</p>
       </div>
 
       <div class="divider"></div>
@@ -418,6 +454,16 @@
       R<sub>y</sub> <span data-i18n="note-ry">– из таблицы СП 16.13330.2017 по марке стали и толщине проката</span><br>
       <span data-i18n="note-lmp">Условная гибкость: λ̄ = λ × √(R<sub>y</sub> / E), где E = 2.06 × 10⁵ МПа</span>
     </aside>
+
+    <!-- SEO-текст: виден пользователям и поисковикам -->
+    <section class="seo-block" id="seo-desc">
+      <h2>Онлайн калькулятор устойчивости центрально-сжатых стальных стержней</h2>
+      <p>Калькулятор выполняет проверку устойчивости центрально-сжатых стальных стержней (колонн, стоек, раскосов) согласно <strong>СП 16.13330.2017 «Стальные конструкции»</strong>. Расчёт ведётся по условию N&nbsp;/&nbsp;(φ&nbsp;·&nbsp;A&nbsp;·&nbsp;R<sub>y</sub>&nbsp;·&nbsp;γ<sub>c</sub>)&nbsp;≤&nbsp;1.</p>
+      <h3>Коэффициент продольного изгиба φ – кривые устойчивости a, b, c</h3>
+      <p>Коэффициент φ определяется по типу поперечного сечения (кривые a, b, c из приложения Д СП&nbsp;16) и условной гибкости λ̄&nbsp;=&nbsp;λ&nbsp;·&nbsp;√(R<sub>y</sub>/E). Инструмент автоматически интерполирует таблицу значений и отображает промежуточные результаты в реальном времени.</p>
+      <h3>Поддерживаемые марки стали</h3>
+      <p>C235, C245, C255, C345, C345K, C355, C355-1/K, C390/C390-1, C440, C590, C690. Расчётное сопротивление R<sub>y</sub> подбирается автоматически по марке стали и толщине проката из таблицы В.5 СП&nbsp;16.13330.2017.</p>
+    </section>
   </div>
 
   <!-- RIGHT: sidebar -->
