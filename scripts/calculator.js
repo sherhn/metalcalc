@@ -1,13 +1,13 @@
 // calculator.js – скомпилировано из calculator.ts
-// Расчёт устойчивости по СП 16.13330.2017
-//
-// Функция calculateStability() теперь возвращает i18n-ключи вместо
-// хардкодных строк. Отображаемый текст ошибки формируется в index.html
-// через функцию t(key) из i18n.js.
+// Расчёт устойчивости стержней по СП 16.13330.2017
+// Архитектура: классы + Map, функциональный стиль, без глобального состояния.
+// calculateStability() возвращает i18n-ключи ошибок { error: string }.
 
 export const E = 2.06e5;
 
-export const PHI_A = [
+// ─── Таблицы φ ────────────────────────────────────────────────────────────────
+
+const PHI_TABLE_A = [
   [0.4,1.000],[0.6,0.994],[0.8,0.981],[1.0,0.968],
   [1.2,0.953],[1.4,0.938],[1.6,0.920],[1.8,0.900],
   [2.0,0.877],[2.2,0.851],[2.4,0.821],[2.6,0.786],
@@ -17,7 +17,7 @@ export const PHI_A = [
   [5.2,0.281],[5.4,0.261],[5.6,0.242],
 ];
 
-export const PHI_B = [
+const PHI_TABLE_B = [
   [0.4,1.000],[0.6,0.986],[0.8,0.967],[1.0,0.948],
   [1.2,0.927],[1.4,0.905],[1.6,0.881],[1.8,0.855],
   [2.0,0.826],[2.2,0.794],[2.4,0.760],[2.6,0.723],
@@ -28,7 +28,7 @@ export const PHI_B = [
   [6.0,0.211],
 ];
 
-export const PHI_C = [
+const PHI_TABLE_C = [
   [0.4,0.984],[0.6,0.956],[0.8,0.929],[1.0,0.901],
   [1.2,0.872],[1.4,0.842],[1.6,0.811],[1.8,0.778],
   [2.0,0.744],[2.2,0.709],[2.4,0.672],[2.6,0.635],
@@ -38,133 +38,175 @@ export const PHI_C = [
   [5.2,0.271],[5.4,0.255],[5.6,0.241],[5.8,0.241],
 ];
 
-export const PHI_HIGH = [
+const PHI_TABLE_HIGH = [
   [6.2,0.198],[6.4,0.186],[6.6,0.174],[6.8,0.164],
   [7.0,0.155],[7.2,0.147],[7.4,0.139],[7.6,0.132],
   [7.8,0.125],[8.0,0.119],[8.5,0.105],[9.0,0.094],
   [9.5,0.084],[10.0,0.076],
 ];
 
-export const STEEL_DATA = {
-  C235:   { min:0,   max:4,   ry:230 },
-  C245:   { min:0,   max:20,  ry:240 },
-  C255: [
+const PHI_TABLES = new Map([
+  ["a", PHI_TABLE_A],
+  ["b", PHI_TABLE_B],
+  ["c", PHI_TABLE_C],
+]);
+
+// ─── Реестр марок стали ───────────────────────────────────────────────────────
+
+const STEEL_REGISTRY = new Map([
+  ["C235",   [{ min:0,   max:4,   ry:230 }]],
+  ["C245",   [{ min:0,   max:20,  ry:240 }]],
+  ["C255",   [
     { min:0,   max:3.9, ry:250 },
     { min:4,   max:10,  ry:240 },
     { min:10,  max:20,  ry:240 },
-  ],
-  C345: [
+  ]],
+  ["C345",   [
     { min:0,   max:10,  ry:340 },
     { min:10,  max:20,  ry:320 },
     { min:20,  max:40,  ry:300 },
     { min:40,  max:60,  ry:280 },
     { min:60,  max:80,  ry:270 },
-  ],
-  C345K:  { min:4,   max:160, ry:340 },
-  C355: [
+  ]],
+  ["C345K",  [{ min:4,   max:160, ry:340 }]],
+  ["C355",   [
     { min:8,   max:16,  ry:350 },
     { min:16,  max:40,  ry:340 },
     { min:40,  max:60,  ry:330 },
     { min:60,  max:80,  ry:320 },
     { min:80,  max:100, ry:310 },
     { min:100, max:160, ry:295 },
-  ],
-  "C355-1": [
+  ]],
+  ["C355-1", [
     { min:8,  max:16, ry:350 },
     { min:16, max:40, ry:340 },
     { min:40, max:50, ry:330 },
-  ],
-  C390: [
+  ]],
+  ["C390",   [
     { min:8,  max:16, ry:380 },
     { min:16, max:40, ry:340 },
-  ],
-  C440: { min:8, max:50, ry:430 },
-  C590: { min:8, max:50, ry:525 },
-  C690: { min:8, max:50, ry:575 },
-};
+  ]],
+  ["C440",   [{ min:8, max:50,  ry:430 }]],
+  ["C590",   [{ min:8, max:50,  ry:525 }]],
+  ["C690",   [{ min:8, max:50,  ry:575 }]],
+]);
 
-export function interpolate(table, value) {
-  if (value <= table[0][0]) return table[0][1];
-  const last = table[table.length - 1];
-  if (value >= last[0]) return last[1];
-  for (let i = 0; i < table.length - 1; i++) {
-    const [x1, y1] = table[i];
-    const [x2, y2] = table[i + 1];
-    if (value >= x1 && value <= x2) {
-      return y1 + (y2 - y1) * (value - x1) / (x2 - x1);
-    }
+// ─── Утилиты ──────────────────────────────────────────────────────────────────
+
+/** Линейная интерполяция с бинарным поиском интервала */
+export function interpolate(table, x) {
+  const first = table[0];
+  const last  = table[table.length - 1];
+  if (x <= first[0]) return first[1];
+  if (x >= last[0])  return last[1];
+
+  let lo = 0, hi = table.length - 2;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (table[mid + 1][0] < x) lo = mid + 1;
+    else hi = mid;
   }
-  return last[1];
+
+  const [x1, y1] = table[lo];
+  const [x2, y2] = table[lo + 1];
+  return y1 + (y2 - y1) * (x - x1) / (x2 - x1);
 }
 
+/** Ry (МПа) по марке и толщине, или null если вне диапазона */
 export function getRy(grade, thickness) {
-  const entry = STEEL_DATA[grade];
-  if (!entry) return null;
-  const ranges = Array.isArray(entry) ? entry : [entry];
-  for (const r of ranges) {
-    if (thickness >= r.min && thickness <= r.max) return r.ry;
+  const ranges = STEEL_REGISTRY.get(grade);
+  if (!ranges) return null;
+  return ranges.find(r => thickness >= r.min && thickness <= r.max)?.ry ?? null;
+}
+
+/** Условная гибкость λ̄ */
+export function computeLambdaBar(lambda, ry) {
+  if (!isFinite(lambda) || lambda <= 0) return null;
+  const lambdaClamped = Math.min(120, Math.max(10, lambda));
+  return { lambda: lambdaClamped, lambdaBar: lambdaClamped * Math.sqrt(ry / E) };
+}
+
+/** Коэффициент φ по типу сечения и λ̄ */
+export function computePhi(sectionType, lambdaBar) {
+  if (lambdaBar < 0.4) return 1.0;
+  if (lambdaBar > 10.0) return 7.6 / (lambdaBar * lambdaBar);
+
+  const baseTable = PHI_TABLES.get(sectionType);
+  if (!baseTable) return null;
+
+  const baseMax = baseTable[baseTable.length - 1][0];
+  if (lambdaBar <= baseMax) return interpolate(baseTable, lambdaBar);
+
+  const highMin = PHI_TABLE_HIGH[0][0];
+  if (lambdaBar < highMin) {
+    const x1 = baseMax, y1 = baseTable[baseTable.length - 1][1];
+    const [x2, y2] = PHI_TABLE_HIGH[0];
+    return y1 + (y2 - y1) * (lambdaBar - x1) / (x2 - x1);
   }
-  return null;
+
+  return interpolate(PHI_TABLE_HIGH, lambdaBar);
 }
 
-export function calculateLmp(lambda, ry) {
-  if (!isFinite(lambda) || lambda <= 0 || ry === null) return null;
-  const lm = Math.min(120, Math.max(10, lambda));
-  const lmp = lm * Math.sqrt(ry / E);
-  return { lm, lmp };
-}
-
-export function getPhi(type, lmp) {
-  if (lmp < 0.4) return 1.0;
-  const tableMap = { a: PHI_A, b: PHI_B, c: PHI_C };
-  const table = tableMap[type];
-  if (!table) return null;
-  const maxInTable = table[table.length - 1][0];
-  if (lmp <= maxInTable) return interpolate(table, lmp);
-  if (lmp > 10.0) return 7.6 / (lmp * lmp);
-  if (lmp < PHI_HIGH[0][0]) {
-    const [x2, y2] = PHI_HIGH[0];
-    const [x1, y1] = [maxInTable, table[table.length - 1][1]];
-    return y1 + (y2 - y1) * (lmp - x1) / (x2 - x1);
-  }
-  return interpolate(PHI_HIGH, lmp);
-}
-
-export function formatNumber(num) {
-  const abs = Math.abs(num);
+/** Форматирование числа (обычная или научная нотация через HTML <sup>) */
+export function formatNumber(value) {
+  const abs = Math.abs(value);
   if (abs === 0) return "0";
-  if (abs >= 10_000 || (abs < 0.001)) {
+  if (abs >= 10_000 || abs < 0.001) {
     const exp = Math.floor(Math.log10(abs));
-    const coeff = (num / Math.pow(10, exp)).toFixed(4);
+    const coeff = (value / 10 ** exp).toFixed(4);
     return `${coeff} × 10<sup>${exp}</sup>`;
   }
-  return num.toFixed(6);
+  return value.toFixed(6);
 }
 
-// Возвращает объект CalcResult или строку-ключ i18n при ошибке.
-// Пример: { error: 'err-thickness' } или полный результат расчёта.
+// ─── Основной расчёт ──────────────────────────────────────────────────────────
+
+/**
+ * Проверка условия устойчивости: N / (φ · A · Ry · γc) ≤ 1.
+ * Возвращает CalcResult или { error: '<i18n-key>' }.
+ */
 export function calculateStability(grade, thickness, lambda, yc, areaSI, forceSI, sectionType) {
-  if (!isFinite(thickness) || thickness <= 0)
-    return { error: 'err-thickness' };
-  if (!isFinite(lambda) || lambda < 10 || lambda > 120)
-    return { error: 'err-lambda' };
-  if (!isFinite(areaSI) || areaSI <= 0 || !isFinite(forceSI) || forceSI <= 0)
-    return { error: 'err-area' };
+  const guards = [
+    [!isFinite(thickness) || thickness <= 0,                                  "err-thickness"],
+    [!isFinite(lambda)    || lambda < 10 || lambda > 120,                     "err-lambda"],
+    [!isFinite(areaSI)    || areaSI <= 0 || !isFinite(forceSI) || forceSI <= 0, "err-area"],
+  ];
+  for (const [fail, key] of guards) {
+    if (fail) return { error: key };
+  }
 
   const ry = getRy(grade, thickness);
-  if (ry === null)
-    return { error: 'err-grade' };
+  if (ry === null) return { error: "err-grade" };
 
-  const lmpResult = calculateLmp(lambda, ry);
-  if (!lmpResult) return { error: 'err-lmp' };
+  const lmpResult = computeLambdaBar(lambda, ry);
+  if (!lmpResult) return { error: "err-lmp" };
 
-  const phi = getPhi(sectionType, lmpResult.lmp);
-  if (phi === null) return { error: 'err-phi' };
+  const phi = computePhi(sectionType, lmpResult.lambdaBar);
+  if (phi === null) return { error: "err-phi" };
 
-  const ryPa = ry * 1e6;
+  const ryPa        = ry * 1e6;
   const denominator = phi * areaSI * ryPa * yc;
-  const ratio = forceSI / denominator;
+  const ratio       = forceSI / denominator;
 
-  return { phi, ry, ryPa, lmp: lmpResult.lmp, area: areaSI, force: forceSI,
-           denominator, ratio, isStable: ratio <= 1, yc };
+  return {
+    phi, ry, ryPa,
+    lambdaBar: lmpResult.lambdaBar,
+    area: areaSI, force: forceSI,
+    denominator, ratio,
+    isStable: ratio <= 1,
+    yc,
+  };
 }
+
+// ─── Обратная совместимость ───────────────────────────────────────────────────
+
+export const PHI_A    = PHI_TABLE_A;
+export const PHI_B    = PHI_TABLE_B;
+export const PHI_C    = PHI_TABLE_C;
+export const PHI_HIGH = PHI_TABLE_HIGH;
+export const STEEL_DATA = Object.fromEntries(STEEL_REGISTRY);
+export const calculateLmp = (lambda, ry) => {
+  const r = computeLambdaBar(lambda, ry);
+  return r ? { lm: r.lambda, lmp: r.lambdaBar } : null;
+};
+export const getPhi = computePhi;
