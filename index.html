@@ -258,6 +258,38 @@
     }
     .seo-block p { margin-bottom: 0; }
     .seo-block strong { color: var(--text); }
+
+    /* ── Disclaimer ── */
+    .disclaimer {
+      margin-top: 14px;
+      padding: 11px 14px;
+      background: #fffbeb; border: 1px solid #fde68a;
+      border-radius: var(--r); font-size: .72rem; color: #78350f; line-height: 1.7;
+      display: flex; gap: 9px; align-items: flex-start;
+    }
+    .disclaimer-icon { flex-shrink: 0; font-size: .9rem; margin-top: 1px; }
+
+    /* ── Partner link ── */
+    .partner-card {
+      margin-top: 14px;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 12px 14px;
+      display: flex; align-items: center; gap: 11px;
+      text-decoration: none; color: var(--text);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .partner-card:hover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.08); }
+    .partner-card-icon {
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: var(--accent); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .partner-card-icon svg { width: 18px; height: 18px; }
+    .partner-card-text { flex: 1; min-width: 0; }
+    .partner-card-label { font-size: .62rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 2px; }
+    .partner-card-name { font-size: .82rem; font-weight: 600; color: var(--text); }
+    .partner-card-desc { font-size: .7rem; color: var(--muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .partner-card-arrow { color: var(--muted); font-size: .85rem; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -275,7 +307,7 @@
       <rect x="12" y="9" width="4"  height="10" rx="1" fill="white"/>
     </svg>
     <div class="logo-wordmark">
-      <span>МеталКальк</span>
+      <span data-i18n="logo-name">МеталКальк</span>
       <span data-i18n="logo-sub">Стальные конструкции</span>
     </div>
   </a>
@@ -454,6 +486,29 @@
       R<sub>y</sub> <span data-i18n="note-ry">– из таблицы СП 16.13330.2017 по марке стали и толщине проката</span><br>
       <span data-i18n="note-lmp">Условная гибкость: λ̄ = λ × √(R<sub>y</sub> / E), где E = 2.06 × 10⁵ МПа</span>
     </aside>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer" role="note" aria-label="Отказ от ответственности">
+      <span class="disclaimer-icon">⚠️</span>
+      <span data-i18n="disclaimer">Результаты носят справочный характер. Калькулятор не заменяет проектную документацию, выполненную аттестованным специалистом. Автор не несёт ответственности за последствия применения результатов расчётов.</span>
+    </div>
+
+    <!-- Partner link: ColumnCalc -->
+    <a class="partner-card" href="https://sherhn.github.io/columncalc/" target="_blank" rel="noopener" aria-label="ColumnCalc – подбор сечения сжатых стержней">
+      <div class="partner-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="16" height="3" rx="1" fill="white"/>
+          <rect x="1" y="14" width="16" height="3" rx="1" fill="white"/>
+          <rect x="7.5" y="4" width="3" height="10" rx="1" fill="white"/>
+        </svg>
+      </div>
+      <div class="partner-card-text">
+        <div class="partner-card-label" data-i18n="partner-label">Смотрите также</div>
+        <div class="partner-card-name" data-i18n="partner-name">КолумнКальк</div>
+        <div class="partner-card-desc" data-i18n="partner-desc">Подбор сечения центрально-сжатых стержней — A ≥ N / (φ × Ry × γc)</div>
+      </div>
+      <span class="partner-card-arrow" aria-hidden="true">→</span>
+    </a>
 
     <!-- SEO-текст: виден пользователям и поисковикам -->
     <section class="seo-block" id="seo-desc">

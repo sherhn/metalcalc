@@ -3,6 +3,7 @@
 
 export const STRINGS = {
   ru: {
+    'logo-name':     'МеталКальк',
     'logo-sub':      'Стальные конструкции',
     'hdr-ref':       'СП 16.13330.2017 – Стальные конструкции',
     'hdr-h1':        'Расчёт устойчивости центрально-сжатых стержней',
@@ -46,7 +47,7 @@ export const STRINGS = {
     'err-lmp':       'Ошибка расчёта условной гибкости',
     'err-phi':       'Ошибка расчёта коэффициента φ',
     'out-of-range':  'вне диапазона',
-    'page-title':    'Расчёт устойчивости стержней – СП 16.13330.2017 | SteelCalc',
+    'page-title':    'Расчёт устойчивости стержней – СП 16.13330.2017 | МеталКальк',
     'seo-h2':        'Онлайн калькулятор устойчивости центрально-сжатых стальных стержней',
     'seo-p1':        'Калькулятор выполняет проверку устойчивости центрально-сжатых стальных стержней (колонн, стоек, раскосов) согласно СП 16.13330.2017 «Стальные конструкции». Расчёт ведётся по условию N / (φ · A · Ry · γc) ≤ 1.',
     'seo-h3a':       'Коэффициент продольного изгиба φ — кривые устойчивости a, b, c',
@@ -54,9 +55,14 @@ export const STRINGS = {
     'seo-h3b':       'Поддерживаемые марки стали',
     'seo-p3':        'C235, C245, C255, C345, C345K, C355, C355-1/K, C390/C390-1, C440, C590, C690. Расчётное сопротивление Ry подбирается автоматически по марке стали и толщине проката из таблицы В.5 СП 16.13330.2017.',
     'meta-desc':     'Онлайн-калькулятор устойчивости центрально-сжатых стальных стержней по СП 16.13330.2017.',
+    'disclaimer':    'Результаты носят справочный характер. Калькулятор не заменяет проектную документацию, выполненную аттестованным специалистом. Автор не несёт ответственности за последствия применения результатов расчётов.',
+    'partner-label': 'Смотрите также',
+    'partner-name':  'КолумнКальк',
+    'partner-desc':  'Подбор сечения центрально-сжатых стержней — A ≥ N / (φ × Ry × γc)',
   },
 
   en: {
+    'logo-name':     'MetalCalc',
     'logo-sub':      'Steel Structures',
     'hdr-ref':       'SP 16.13330.2017 – Steel Structures',
     'hdr-h1':        'Buckling check for axially compressed members',
@@ -100,7 +106,7 @@ export const STRINGS = {
     'err-lmp':       'Error computing reduced slenderness',
     'err-phi':       'Error computing factor φ',
     'out-of-range':  'out of range',
-    'page-title':    'Steel Buckling Check – SP 16.13330.2017 | SteelCalc',
+    'page-title':    'Steel Buckling Check – SP 16.13330.2017 | MetalCalc',
     'seo-h2':        'Online calculator for buckling of axially compressed steel members',
     'seo-p1':        'This calculator checks the buckling stability of axially compressed steel members (columns, struts, braces) in accordance with SP 16.13330.2017 "Steel Structures". The check is performed using the condition N / (φ · A · Ry · γc) ≤ 1.',
     'seo-h3a':       'Buckling factor φ — stability curves a, b, c',
@@ -108,9 +114,14 @@ export const STRINGS = {
     'seo-h3b':       'Supported steel grades',
     'seo-p3':        'C235, C245, C255, C345, C345K, C355, C355-1/K, C390/C390-1, C440, C590, C690. The design resistance Ry is looked up automatically by grade and plate thickness from Table B.5 of SP 16.13330.2017.',
     'meta-desc':     'Online calculator: buckling check for axially compressed steel members per SP 16.13330.2017.',
+    'disclaimer':    'Results are for reference only. This calculator does not replace design documentation prepared by a certified engineer. The author assumes no liability for any consequences arising from the use of these calculation results.',
+    'partner-label': 'See also',
+    'partner-name':  'ColumnCalc',
+    'partner-desc':  'Cross-section selection for compressed members — A ≥ N / (φ × Ry × γc)',
   },
 
   de: {
+    'logo-name':     'MetalCalc',
     'logo-sub':      'Stahlkonstruktionen',
     'hdr-ref':       'SP 16.13330.2017 – Stahlkonstruktionen',
     'hdr-h1':        'Stabilitätsnachweis für mittig gedrückte Stäbe',
@@ -154,7 +165,7 @@ export const STRINGS = {
     'err-lmp':       'Fehler bei der Berechnung der bezogenen Schlankheit',
     'err-phi':       'Fehler bei der Berechnung des Knickbeiwerts φ',
     'out-of-range':  'außerhalb des Bereichs',
-    'page-title':    'Stabilitätsnachweis Stahl – SP 16.13330.2017 | SteelCalc',
+    'page-title':    'Stabilitätsnachweis Stahl – SP 16.13330.2017 | MetalCalc',
     'seo-h2':        'Online-Rechner zur Knickstabilität mittig gedrückter Stahlstäbe',
     'seo-p1':        'Dieser Rechner führt den Stabilitätsnachweis für mittig gedrückte Stahlstäbe (Stützen, Pfosten, Streben) nach SP 16.13330.2017 "Stahlkonstruktionen" durch. Die Bedingung lautet: N / (φ · A · Ry · γc) ≤ 1.',
     'seo-h3a':       'Knickbeiwert φ — Knickspannungslinien a, b, c',
@@ -162,9 +173,14 @@ export const STRINGS = {
     'seo-h3b':       'Unterstützte Stahlsorten',
     'seo-p3':        'C235, C245, C255, C345, C345K, C355, C355-1/K, C390/C390-1, C440, C590, C690. Der Bemessungswiderstand Ry wird automatisch nach Stahlsorte und Blechdicke aus Tabelle B.5 von SP 16.13330.2017 entnommen.',
     'meta-desc':     'Online-Rechner: Knicknachweis für mittig gedrückte Stahlstäbe nach SP 16.13330.2017.',
+    'disclaimer':    'Die Ergebnisse sind als Orientierungswerte zu verstehen. Der Rechner ersetzt keine Entwurfsdokumentation eines zertifizierten Fachplaners. Der Autor übernimmt keine Haftung für Folgen, die aus der Verwendung der Berechnungsergebnisse entstehen.',
+    'partner-label': 'Siehe auch',
+    'partner-name':  'ColumnCalc',
+    'partner-desc':  'Querschnittsbemessung für Druckstäbe — A ≥ N / (φ × Ry × γc)',
   },
 
   fr: {
+    'logo-name':     'MetalCalc',
     'logo-sub':      'Structures métalliques',
     'hdr-ref':       'SP 16.13330.2017 – Structures métalliques',
     'hdr-h1':        'Vérification au flambement des barres comprimées',
@@ -208,7 +224,7 @@ export const STRINGS = {
     'err-lmp':       'Erreur de calcul de l\'élancement réduit',
     'err-phi':       'Erreur de calcul du coefficient φ',
     'out-of-range':  'hors plage',
-    'page-title':    'Vérification au flambement – SP 16.13330.2017 | SteelCalc',
+    'page-title':    'Vérification au flambement – SP 16.13330.2017 | MetalCalc',
     'seo-h2':        'Calculateur en ligne pour le flambement des barres comprimées',
     'seo-p1':        'Ce calculateur vérifie la stabilité au flambement des barres acier comprimées axialement (colonnes, montants, contreventements) selon SP 16.13330.2017 «Structures métalliques». La condition est : N / (φ · A · Ry · γc) ≤ 1.',
     'seo-h3a':       'Coefficient de flambement φ — courbes de stabilité a, b, c',
@@ -216,9 +232,14 @@ export const STRINGS = {
     'seo-h3b':       'Nuances d\'acier prises en charge',
     'seo-p3':        'C235, C245, C255, C345, C345K, C355, C355-1/K, C390/C390-1, C440, C590, C690. La résistance de calcul Ry est déterminée automatiquement par nuance et épaisseur à partir du tableau B.5 de SP 16.13330.2017.',
     'meta-desc':     'Calculateur en ligne : vérification au flambement des barres comprimées selon SP 16.13330.2017.',
+    'disclaimer':    'Les résultats sont fournis à titre indicatif uniquement. Ce calculateur ne remplace pas une documentation de projet établie par un ingénieur certifié. L\'auteur décline toute responsabilité quant aux conséquences de l\'utilisation des résultats de calcul.',
+    'partner-label': 'Voir aussi',
+    'partner-name':  'ColumnCalc',
+    'partner-desc':  'Sélection de section pour barres comprimées — A ≥ N / (φ × Ry × γc)',
   },
 
   zh: {
+    'logo-name':     'MetalCalc',
     'logo-sub':      '钢结构',
     'hdr-ref':       'SP 16.13330.2017 – 钢结构',
     'hdr-h1':        '轴心受压构件稳定性验算',
@@ -262,7 +283,7 @@ export const STRINGS = {
     'err-lmp':       '相对长细比计算错误',
     'err-phi':       '稳定系数 φ 计算错误',
     'out-of-range':  '超出范围',
-    'page-title':    '钢构件稳定验算 – SP 16.13330.2017 | SteelCalc',
+    'page-title':    '钢构件稳定验算 – SP 16.13330.2017 | MetalCalc',
     'seo-h2':        '轴心受压钢构件稳定性在线计算器',
     'seo-p1':        '本计算器依据 SP 16.13330.2017《钢结构》对轴心受压钢构件（柱、撑杆、斜撑）进行稳定性验算，验算条件为：N / (φ · A · Ry · γc) ≤ 1。',
     'seo-h3a':       '稳定系数 φ — 稳定曲线 a、b、c',
@@ -270,6 +291,10 @@ export const STRINGS = {
     'seo-h3b':       '支持的钢材牌号',
     'seo-p3':        'C235、C245、C255、C345、C345K、C355、C355-1/K、C390/C390-1、C440、C590、C690。工具依据 SP 16.13330.2017 表 B.5，按牌号和板厚自动查取设计抗力 Ry。',
     'meta-desc':     '在线计算器：依据 SP 16.13330.2017 进行轴心受压钢构件稳定验算。',
+    'disclaimer':    '计算结果仅供参考，不能替代由具备资质的工程师编制的设计文件。作者对使用本计算结果所产生的任何后果不承担责任。',
+    'partner-label': '另请参阅',
+    'partner-name':  'ColumnCalc',
+    'partner-desc':  '轴心受压构件截面选取 — A ≥ N / (φ × Ry × γc)',
   },
 };
 
