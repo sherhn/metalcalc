@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="yandex-verification" content="89a4fba390514456" />
 
   <!-- ── Primary SEO ── -->
   <title>Расчёт устойчивости центрально-сжатых стержней онлайн – СП 16.13330.2017 | МеталКальк</title>
@@ -560,6 +559,7 @@
 <footer class="footer-ad">
   <span class="ad-label" data-i18n="ad-label">Реклама</span>
   <div class="ad-zone footer-zone">970 × 90 – нижний баннер</div>
+  <a href="privacy.html" style="font-size:.7rem;color:var(--muted);margin-top:6px;text-decoration:none;border-bottom:1px solid var(--border);">Политика конфиденциальности</a>
 </footer>
 
 <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
@@ -721,6 +721,18 @@ $('calculateBtn').addEventListener('click', calculate);
 [areaInput, forceInput, thicknessInput, lambdaInput].forEach(el =>
   el.addEventListener('keydown', e => e.key === 'Enter' && calculate())
 );
+
+// ── Cookie consent & РСЯ ─────────────────────────────────────────────────────
+import { initConsent, onConsentGranted } from './scripts/cookie-consent.js';
+
+onConsentGranted(() => {
+  const script = document.createElement('script');
+  script.src = 'https://yandex.ru/ads/system/context.js';
+  script.async = true;
+  document.head.appendChild(script);
+});
+
+initConsent();
 
 // Init
 applyLang('ru');
