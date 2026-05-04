@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /privacy.html
 
-Sitemap: https://sherhn.github.io/metalcalc/sitemap.xml
+Sitemap: https://metalcalc.sherhn.space/sitemap.xml

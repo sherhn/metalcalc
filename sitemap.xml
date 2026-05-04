@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sherhn.github.io/metalcalc/</loc>
+    <loc>https://metalcalc.sherhn.space/</loc>
     <lastmod>2026-05-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://sherhn.github.io/metalcalc/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://sherhn.github.io/metalcalc/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://sherhn.github.io/metalcalc/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://sherhn.github.io/metalcalc/"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://sherhn.github.io/metalcalc/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://metalcalc.sherhn.space/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://metalcalc.sherhn.space/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://metalcalc.sherhn.space/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://metalcalc.sherhn.space/"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://metalcalc.sherhn.space/"/>
   </url>
 </urlset>
