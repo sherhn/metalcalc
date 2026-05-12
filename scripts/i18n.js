@@ -59,6 +59,8 @@ export const STRINGS = {
     'partner-label': 'Смотрите также',
     'partner-name':  'КолумнКальк',
     'partner-desc':  'Подбор сечения центрально-сжатых стержней – A ≥ N / (φ × Ry × γc)',
+    'footer-privacy': 'Политика конфиденциальности',
+    'footer-license': 'Лицензия',
   },
 
   en: {
@@ -118,6 +120,8 @@ export const STRINGS = {
     'partner-label': 'See also',
     'partner-name':  'ColumnCalc',
     'partner-desc':  'Cross-section selection for compressed members – A ≥ N / (φ × Ry × γc)',
+    'footer-privacy': 'Privacy Policy',
+    'footer-license': 'License',
   },
 
   de: {
@@ -177,6 +181,8 @@ export const STRINGS = {
     'partner-label': 'Siehe auch',
     'partner-name':  'ColumnCalc',
     'partner-desc':  'Querschnittsbemessung für Druckstäbe – A ≥ N / (φ × Ry × γc)',
+    'footer-privacy': 'Datenschutzerklärung',
+    'footer-license': 'Lizenz',
   },
 
   fr: {
@@ -236,6 +242,8 @@ export const STRINGS = {
     'partner-label': 'Voir aussi',
     'partner-name':  'ColumnCalc',
     'partner-desc':  'Sélection de section pour barres comprimées – A ≥ N / (φ × Ry × γc)',
+    'footer-privacy': 'Politique de confidentialité',
+    'footer-license': 'Licence',
   },
 
   zh: {
@@ -295,6 +303,8 @@ export const STRINGS = {
     'partner-label': '另请参阅',
     'partner-name':  'ColumnCalc',
     'partner-desc':  '轴心受压构件截面选取 – A ≥ N / (φ × Ry × γc)',
+    'footer-privacy': '隐私政策',
+    'footer-license': '许可协议',
   },
 };
 
