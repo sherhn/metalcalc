@@ -61,6 +61,7 @@ export const STRINGS = {
     'partner-desc':  'Подбор сечения центрально-сжатых стержней – A ≥ N / (φ × Ry × γc)',
     'footer-privacy': 'Политика конфиденциальности',
     'footer-license': 'Лицензия',
+    'gh-star':        'Звезда',
   },
 
   en: {
@@ -122,6 +123,7 @@ export const STRINGS = {
     'partner-desc':  'Cross-section selection for compressed members – A ≥ N / (φ × Ry × γc)',
     'footer-privacy': 'Privacy Policy',
     'footer-license': 'License',
+    'gh-star':        'Star',
   },
 
   de: {
@@ -183,6 +185,7 @@ export const STRINGS = {
     'partner-desc':  'Querschnittsbemessung für Druckstäbe – A ≥ N / (φ × Ry × γc)',
     'footer-privacy': 'Datenschutzerklärung',
     'footer-license': 'Lizenz',
+    'gh-star':        'Stern',
   },
 
   fr: {
@@ -244,6 +247,7 @@ export const STRINGS = {
     'partner-desc':  'Sélection de section pour barres comprimées – A ≥ N / (φ × Ry × γc)',
     'footer-privacy': 'Politique de confidentialité',
     'footer-license': 'Licence',
+    'gh-star':        'Étoile',
   },
 
   zh: {
@@ -305,6 +309,7 @@ export const STRINGS = {
     'partner-desc':  '轴心受压构件截面选取 – A ≥ N / (φ × Ry × γc)',
     'footer-privacy': '隐私政策',
     'footer-license': '许可协议',
+    'gh-star':        '收藏',
   },
 };
 
